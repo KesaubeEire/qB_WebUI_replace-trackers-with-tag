@@ -6,8 +6,6 @@
 // @license      MIT
 // @null     ----------------------------
 // @run-at       document-end
-// @match        http://192.168.31.107:9091/
-// @match        http://192.168.31.99:9092/
 // @match        http://127.0.0.1:8080/
 // @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js
 // ==/UserScript==
