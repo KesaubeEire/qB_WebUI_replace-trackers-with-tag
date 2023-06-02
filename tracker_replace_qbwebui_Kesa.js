@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name         qB_WebUI_标签批量替换tracker
+// @name:en      qB_WebUI_replace-trackers-with-tag
 // @version      1.0.0
 // @author       Kesa
 // @description  利用 qBitorrent WebUI 的 tag API 批量替换 Tracker
@@ -14,7 +15,7 @@
  * 参考: https://greasyfork.org/zh-CN/scripts/391688-水水-qbittorrent-管理脚本-qq-群-189574683
  * 感谢这位大佬, 本脚本是参考了一下这个大佬的脚本进行简化而来的
  * ----------------
- * 流程:
+ * 代码流程:
  * 1. 在 UI 界面开个 button 调出页面
  * 2. 检测所有指定 tag 的种子 hash
  * 3. 将所有指定 hash 的种子的 tracker 改为 指定的 tracker
