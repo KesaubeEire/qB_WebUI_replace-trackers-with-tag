@@ -27,7 +27,7 @@ const host = window.location.href;
 const baseURL = 'api/v2/torrents/';
 const prevURL = host + baseURL;
 
-/**fetch 封装
+/**fetch GET 封装
  * @param {*} route 路由
  * @returns Promise
  */
@@ -42,6 +42,70 @@ async function getFetch(route) {
     return null;
   }
 }
+
+/**fetch POST 封装
+ * @param {*} route 路由
+ * @param {*} data POST 内容
+ * @returns Promise
+ */
+async function postFetch(route, body = {}) {
+  try {
+    const response = await fetch(prevURL + route, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: body }),
+      data: body
+    })
+    if (!response.ok) { throw new Error('请求失败'); }
+    const data = await response.json();
+    return data;
+  }
+  catch (error) {
+    console.error(error);
+    return null;
+  }
+
+}
+
+function postXHR(route, body) {
+  // 创建一个新的XHR对象
+  var xhr = new XMLHttpRequest();
+
+  // 设置请求方法和URL
+  xhr.open('POST', prevURL + route, true);
+
+  // 设置请求头（可选）
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  // 设置响应类型（可选）
+  xhr.responseType = 'json';
+
+  // 发送请求
+  xhr.send(JSON.stringify({ data: 'example' }));
+
+  // 输出发送的数据（可选）
+  console.log('发送的数据:', { data: 'example' });
+
+  // 处理响应事件
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      // 请求成功
+      console.log('请求成功');
+      console.log(xhr.response);
+    } else {
+      // 请求失败
+      console.log('请求失败');
+    }
+  };
+
+  // 处理错误事件（可选）
+  xhr.onerror = function () {
+    console.log('请求发生错误');
+  };
+}
+
 // NOTE: 1. 在 UI 界面开个 button 调出页面
 const jq = jQuery;
 const $ = jQuery;
@@ -126,10 +190,34 @@ jq(".js-modal").click(async function () {
     jq('#torrent-select').html(html)
   }
 
+  // NOTE: 3. 将所有指定 hash 的种子的 tracker 改为 指定的 tracker
+  jq('button.js-replace').click(function () {
+    // 检查所选标签是否有种子数据
+    if (selectedList == undefined || selectedList.length == 0) { alert('所选标签没有种子数据!'); return }
 
+    // 检查新 tracker 是否存在
+    const input = jq('input.js-input').val()
+    if (input == "") { alert('目标 Tracker 没写!'); return }
 
+    // 检查 tracker 是否符合为正常 tracker 链接
+    const regex = /^(udp|http(s)?):\/\//;
+    const isReg = regex.test(input)
+    // console.log(isReg);
+    if (!isReg) { alert('目标 Tracker 不是有效的 Tracker 链接!'); return }
 
+    // 执行替换 Tracker 链接
+    selectedList.map(async item => {
+      console.log(item.hash, item.tracker, input);
 
+      let res
+      // 有 tracker 就替换
+      if (item.tracker)
+        res = await getFetch(`editTracker?hash=${item.hash}&origUrl=${item.tracker}&newUrl=${input}`)
+      // 没有 tracker 就添加
+      else
+        res = await getFetch(`addTrackers?hash=${item.hash}&urls=${input}`)
+      console.log(res);
+      alert('操作可能成功了捏~')
+    })
+  })
 });
-
-
