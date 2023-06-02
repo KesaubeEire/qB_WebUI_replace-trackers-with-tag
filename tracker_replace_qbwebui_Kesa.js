@@ -1,14 +1,16 @@
 // ==UserScript==
-// @name         qB_WebUI_标签批量替换tracker
-// @name:en      qB_WebUI_replace-trackers-with-tag
-// @version      1.0.0
-// @author       Kesa
-// @description  利用 qBitorrent WebUI 的 tag API 批量替换 Tracker
-// @license      MIT
+// @name            qB_WebUI_标签批量替换tracker
+// @name:en         qB_WebUI_replace-trackers-with-tag
+// @namespace       localhost
+// @version         1.0.0
+// @author          Kesa
+// @description     利用 qBitorrent WebUI 的 tag API 批量替换 Tracker
+// @description:en  replace torrents tracker with tag in qBitorrent WebUI
+// @license         MIT
 // @null     ----------------------------
-// @run-at       document-end
-// @match        http://127.0.0.1:8080/
-// @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js
+// @run-at          document-end
+// @match           http://127.0.0.1:8080/
+// @require         https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js
 // ==/UserScript==
 
 /**
