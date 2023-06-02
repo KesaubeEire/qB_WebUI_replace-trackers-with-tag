@@ -2,7 +2,7 @@
 // @name            qB_WebUI_标签批量替换tracker
 // @name:en         qB_WebUI_replace-trackers-with-tag
 // @namespace       localhost
-// @version         1.0.0
+// @version         1.0.1
 // @author          Kesa
 // @description     利用 qBitorrent WebUI 的 tag API 批量替换 Tracker
 // @description:en  replace torrents tracker with tag in qBitorrent WebUI
@@ -207,18 +207,25 @@ jq(".js-modal").click(async function () {
     if (!isReg) { alert('目标 Tracker 不是有效的 Tracker 链接!'); return }
 
     // 执行替换 Tracker 链接
-    selectedList.map(async item => {
-      console.log(item.hash, item.tracker, input);
+    try {
+      selectedList.map(async item => {
+        console.log(item.hash, item.tracker, input);
 
-      let res
-      // 有 tracker 就替换
-      if (item.tracker)
-        res = await getFetch(`editTracker?hash=${item.hash}&origUrl=${item.tracker}&newUrl=${input}`)
-      // 没有 tracker 就添加
-      else
-        res = await getFetch(`addTrackers?hash=${item.hash}&urls=${input}`)
-      console.log(res);
-      alert('操作可能成功了捏~')
-    })
+        let res
+        // 有 tracker 就替换
+        if (item.tracker)
+          res = await getFetch(`editTracker?hash=${item.hash}&origUrl=${item.tracker}&newUrl=${input}`)
+        // 没有 tracker 就添加
+        else
+          res = await getFetch(`addTrackers?hash=${item.hash}&urls=${input}`)
+        console.log(res);
+
+      })
+
+      alert('操作可能成功了捏~多等几秒看看Tracker有没有变化捏~')
+    } catch (error) {
+      console.error(error)
+      alert('操作可能失败了捏~')
+    }
   })
 });
